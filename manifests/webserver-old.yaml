@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webserver
+  name: webserver-2
+  namespace: test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webserver-2
+  template:
+    metadata:
+      labels:
+        app: webserver-2
+    spec:
+      containers:
+      - image: httpd
+        name: webserver
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: webserver-2
+  name: webserver-2
+  namespace: test
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: webserver-2
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webserver-2
+  namespace: test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: webserver-2
+            port:
+              number: 80
+        path: /webserver2
+        pathType: Exact
