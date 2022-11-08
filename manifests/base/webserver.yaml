@@ -5,7 +5,6 @@ metadata:
   labels:
     app: webserver
   name: webserver
-  namespace: test
 spec:
   replicas: 3
   selector:
@@ -26,7 +25,6 @@ metadata:
   labels:
     app: webserver
   name: webserver
-  namespace: test
 spec:
   ports:
   - port: 80
@@ -39,13 +37,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: webserver
-  namespace: test
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
   - http:
+      host: example.com
       paths:
       - backend:
           service:
