@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
 - namespaces.yaml
 - webserver.yaml
-- webserver-old.yaml
