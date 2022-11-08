@@ -17,7 +17,7 @@ spec:
         app: webserver
     spec:
       containers:
-      - image: nginx
+      - image: httpd
         name: webserver
 ---
 apiVersion: v1
