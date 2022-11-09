@@ -9,10 +9,10 @@
   <name>DemoConfigs_module</name>
   <description>DemoConfigs_module</description>
   <modules>
-    <module>artifacts/endpoint/TestGoogle</module>
-    <module>artifacts/api/Google</module>
-    <module>artifacts/metadata/Google_swagger</module>
-    <module>artifacts/metadata/Google_metadata</module>
+    <module>artifacts\endpoint\TestGoogle</module>
+    <module>artifacts\api\Google</module>
+    <module>artifacts\metadata\Google_swagger</module>
+    <module>artifacts\metadata\Google_metadata</module>
   </modules>
   <distributionManagement>
     <repository>
