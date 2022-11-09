@@ -15,5 +15,5 @@ spec:
         app: webserver
     spec:
       containers:
-        - image: wso2-demo
+        - image: wso2-demo:v0.0.0
           name: wso2-demo
