@@ -6,8 +6,8 @@ metadata:
   name: demo-mediation
 spec:
   ports:
-    - port: 8290
+    - port: 80
       protocol: TCP
-      targetPort: 80
+      targetPort: 8290
   selector:
     app: demo-mediation
