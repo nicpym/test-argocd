@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: webserver
+  name: demo-mediation
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -11,8 +11,8 @@ spec:
         paths:
           - backend:
               service:
-                name: webserver
+                name: demo-mediation
                 port:
                   number: 80
-            path: /webserver
+            path: /mediation
             pathType: Exact
