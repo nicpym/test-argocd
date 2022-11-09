@@ -15,4 +15,4 @@ spec:
                 port:
                   number: 80
             path: /mediation
-            pathType: Exact
+            pathType: Prefix
