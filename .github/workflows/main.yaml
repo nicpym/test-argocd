@@ -48,7 +48,7 @@ jobs:
           # A string to determine the format of the version output
           version_format: "${major}.${minor}.${patch}"
           # Optional path to check for changes. If any changes are detected in the path the
-          change_path: "src"
+          change_path: "."
           # 'changed' output will true. Enter multiple paths separated by spaces.
           # If true, the body of commits will also be searched for major/minor patterns to determine the version type.
           search_commit_body: true
