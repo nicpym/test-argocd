@@ -1,6 +1,7 @@
 name: Main CI/CD
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -56,7 +57,7 @@ jobs:
           # If true, every commit will be treated as a bump to the version.
           bump_each_commit: true
       - name: "Build with Maven and publish Docker image"
-        run: mvn clean install -Ddockerfile.tag=${{steps.version.outputs.version_tag}} -Ddockerfile.username=${{secrets.DOCKER_USERNAME}} -Ddockerfile.password=${{secrets.DOCKER_PASSWORD}}
+        run: mvn clean install -Dmaven.test.skip=true -Ddockerfile.tag=${{steps.version.outputs.version_tag}} -Ddockerfile.username=${{secrets.DOCKER_USERNAME}} -Ddockerfile.password=${{secrets.DOCKER_PASSWORD}}
       - name: Push New Version Tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.0
