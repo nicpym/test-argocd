@@ -65,12 +65,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.version.outputs.version_tag }}
           tag_prefix: ""
-      - name: Update values.yaml
+      - name: Update deployment.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: "deploy/deployment.yaml"
           propertyPath: "spec.template.spec.containers.0.image"
           value: nicpym/wso2-demo:${{steps.version.outputs.version_tag}}
+          branch: main
           commitChange: true
           message: "Udate image version in deployment.yaml"
           updateFile: true
