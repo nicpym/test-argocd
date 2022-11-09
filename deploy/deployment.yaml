@@ -17,3 +17,5 @@ spec:
       containers:
         - image: nicpym/wso2-demo:v0.0.6
           name: wso2-demo
+          ports:
+            - containerPort: 8290
