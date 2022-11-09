@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: demo-mediation
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
@@ -14,5 +14,5 @@ spec:
                 name: demo-mediation
                 port:
                   number: 80
-            path: /mediation
+            path: /api(/|$)(.*)
             pathType: Prefix
