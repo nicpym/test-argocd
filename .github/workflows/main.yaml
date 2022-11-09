@@ -1,0 +1,66 @@
+name: Main CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".github/**"
+      - "deploy/**"
+
+jobs:
+  build-push:
+    name: Main Build and Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: "Set up JDK 18"
+        uses: actions/setup-java@v2
+        with:
+          java-version: "18"
+          distribution: "adopt"
+      - name: "Cache Maven packages"
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      # - name: Log in to the dockerhub
+      #   uses: docker/login-action@v2
+      #   with:
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate Semantic Version
+        uses: paulhatch/semantic-version@v5.0.0-alpha
+        id: version
+        with:
+          # The prefix to use to identify tags
+          tag_prefix: "v"
+          # A string which, if present in a git commit, indicates that a change represents a
+          # major (breaking) change, supports regular expressions wrapped with '/'
+          major_pattern: "(MAJOR)"
+          # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
+          minor_pattern: "(MINOR)"
+          # A string to determine the format of the version output
+          version_format: "${major}.${minor}.${patch}"
+          # Optional path to check for changes. If any changes are detected in the path the
+          change_path: "src"
+          # 'changed' output will true. Enter multiple paths separated by spaces.
+          # If true, the body of commits will also be searched for major/minor patterns to determine the version type.
+          search_commit_body: true
+          # The output method used to generate list of users, 'csv' or 'json'.
+          user_format_type: "json"
+          # If true, every commit will be treated as a bump to the version.
+          bump_each_commit: true
+      - name: "Build with Maven and publish Docker image"
+        run: mvn clean install -Ddockerfile.tag=${{steps.version.outputs.version_tag}} -Ddockerfile.username=${{secrets.DOCKER_USERNAME}} -Ddockerfile.password=${{secrets.DOCKER_PASSWORD}}
+      - name: Push New Version Tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ steps.version.outputs.version_tag }}
+          tag_prefix: ""

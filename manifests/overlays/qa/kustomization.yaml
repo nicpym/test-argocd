@@ -1,7 +1,0 @@
-namespace: qa
-resources:
-- namespace.yaml
-- ../../base
-images:
-- name: nginx
-  newName: httpd
