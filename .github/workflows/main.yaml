@@ -54,8 +54,6 @@ jobs:
           search_commit_body: true
           # The output method used to generate list of users, 'csv' or 'json'.
           user_format_type: "json"
-          # If true, every commit will be treated as a bump to the version.
-          bump_each_commit: true
       - name: "Build with Maven and publish Docker image"
         run: mvn clean install -Dmaven.test.skip=true -Ddockerfile.tag=${{steps.version.outputs.version_tag}}
       - name: Push New Version Tag
